@@ -8,7 +8,7 @@ import classNames from 'classnames';
 const NavBar = () => {
     const routName = usePathname()
     // console.log(routName)
-    const links = [{label:"Dashboard", href:"/"},{label:"Issues", href:"/issues"}]
+    const links = [{label:"Dashboard", href:"/dashboard"},{label:"Issues", href:"/issues"}]
   return (
     <nav className='flex space-x-6 border-b mb-5 px-5 h-14 items-center'>
         <Link href='/'><FaBugSlash /></Link>
