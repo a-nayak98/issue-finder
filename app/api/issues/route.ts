@@ -19,3 +19,12 @@ export async function GET(request:NextRequest){
     const issues = await prisma.issue.findMany();
     return NextResponse.json(issues);
 }
+
+export async function PUT(request:NextRequest){
+    try {
+       const body = await request.json(); 
+       console.log(body,"api body")
+    } catch (error) {
+        
+    }
+}

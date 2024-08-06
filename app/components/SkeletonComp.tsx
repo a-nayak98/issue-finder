@@ -3,7 +3,7 @@ import React from 'react'
 
 const SkeletonComponent = () => {
   return (
-    <div className='mt-6 ml-6 w-[60%] h-[120px] border border-black '>
+    <div className='mt-6 ml-6 w-[60%] h-[120px] border border-black rounded'>
         <Container size="2">
             <Flex direction="column" gap="2">
               <Text>
