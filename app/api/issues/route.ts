@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { createIssueSchema } from "@/app/types/validationSchema";
 
+interface IDelete {
+    id:string | null
+}
+
 export async function POST(request:NextRequest){
     const body = await request.json();
     const validation = createIssueSchema.safeParse(body);
@@ -23,4 +27,26 @@ export async function GET(request:NextRequest,response:NextResponse){
       console.log(error)  
     }
 }
+
+export async function DELETE(req: NextRequest, res: NextResponse){
+      try {
+        const url = new URL(req.url);
+        console.log(url)
+    
+        const issueId = url.searchParams.get("id");
+        console.log(issueId)
+        if (!issueId) {
+            return NextResponse.json({ message: "Issue ID not provided" }, { status: 400 });
+          }
+        const deletedIssue = await prisma.issue.delete({
+          where: {
+            id:parseInt(issueId),
+          },
+        });
+        return NextResponse.json({message:"issue deleted",data:deletedIssue});
+      } catch (error) {
+        console.log(error);
+        return NextResponse.error();
+      }
+    };
 

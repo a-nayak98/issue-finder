@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { issueSchema, } from "../types/IssueSchemaType"
 import z from "zod"
 import axios from 'axios'
+import { useAppDispatch } from '../lib/hooks/hooks'
+import { fetchIssuesFailure, fetchIssuesSuccess } from '../lib/features/issueSlice/issueSlice'
 
 
 type IssueType = z.infer<typeof issueSchema>
@@ -13,6 +15,7 @@ const IssueCompModal: React.FC<{ data: IssueType }> = ({ data }: { data: IssueTy
     const [updatedIssue, setUpdatedIssue] = useState<IssueType>({
         ...data
     })
+    const dispatch = useAppDispatch();
 
     const currentIssueId = data.id;
 
@@ -20,11 +23,18 @@ const IssueCompModal: React.FC<{ data: IssueType }> = ({ data }: { data: IssueTy
         try {
             const response = await axios.put(`api/issues/${currentIssueId}`, updatedIssue)
             console.log("edit issue function is called.", updatedIssue, response)
-            // const res = await axios.put(`/api/issues/${data.id}`, updatedIssue)
+            if (response.status === 200) {
+                //       // Refetch the updated list of issues
+                      const updatedIssues = await axios.get("/api/issues");
+                      dispatch(fetchIssuesSuccess(updatedIssues.data)); // Update the Redux state
+                    }
         } catch (error) {
             console.log(error)
+            dispatch(fetchIssuesFailure());
         }
     }
+
+
 
     return (
         <>
@@ -45,7 +55,6 @@ const IssueCompModal: React.FC<{ data: IssueType }> = ({ data }: { data: IssueTy
                                 Title
                             </Text>
                             <TextField.Root
-                                // defaultValue="Freja Johnsen"
                                 value={updatedIssue?.title}
                                 placeholder="Enter your full name"
                                 onChange={(e) => setUpdatedIssue({
