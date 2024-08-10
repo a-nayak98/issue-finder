@@ -15,16 +15,12 @@ export async function POST(request:NextRequest){
     return NextResponse.json(issue,{status: 201})
 }
 
-export async function GET(request:NextRequest){
-    const issues = await prisma.issue.findMany();
-    return NextResponse.json(issues);
-}
-
-export async function PUT(request:NextRequest){
+export async function GET(request:NextRequest,response:NextResponse){
     try {
-       const body = await request.json(); 
-       console.log(body,"api body")
+        const issues = await prisma.issue.findMany();
+    return NextResponse.json(issues);
     } catch (error) {
-        
+      console.log(error)  
     }
 }
+

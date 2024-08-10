@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-// import {CREATEISSUE} from "../../api/issues/route";
 
 
 type iFormData = z.infer<typeof createIssueSchema>
